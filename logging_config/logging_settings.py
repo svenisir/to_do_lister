@@ -3,7 +3,7 @@ from logging_config.logging_filter import (DebugFilter, InfoFilter, WarningFilte
 
 logging_config = {
     'version': 1,
-    'disable_existing_loggers': True,
+    'disable_existing_loggers': False,
     'formatters': {
         'default': {
             'format': '[{asctime}] #{levelname:8} {filename}:'
@@ -11,7 +11,7 @@ logging_config = {
             'style': '{'
         }
     },
-'filters': {
+    'filters': {
         'debug_filter': {
             '()': DebugFilter,
         },
@@ -28,7 +28,7 @@ logging_config = {
             '()': CriticalFilter,
         }
     },
-'handlers': {
+    'handlers': {
         'default': {
             'class': 'logging.StreamHandler',
             'formatter': 'default'
@@ -84,10 +84,13 @@ logging_config = {
             'level': 'DEBUG',
             'handlers': ['default']
         },
+        'database.queries.core': {
+            'level': 'DEBUG',
+            'handlers': ['default']
+        }
     },
     'root': {
         'formatter': 'default',
-        'handlers': ['default'],
     }
 }
 
