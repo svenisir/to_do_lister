@@ -5,12 +5,13 @@ from aiogram import Dispatcher, Bot
 from aiogram.client.default import DefaultBotProperties
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.fsm.storage.redis import RedisStorage, Redis
+from aiogram_dialog import setup_dialogs
 from config_data.config import load_config
 from database.database import create_db_engine, create_sessionmaker
-from database.queries.core import check_connection
-from database.queries.orm import create_tables
+from database.queries import core, orm
 from middlewares import setup_middlewares
 from handlers.user_handlers import router
+from dialogs import setup
 from logging_config.logging_settings import logging_config
 
 logger = logging.getLogger(__name__)
@@ -35,10 +36,12 @@ async def main():
     session_factory = create_sessionmaker(engine)
     setup_middlewares(dp=dp, smk=session_factory)
 
-    await check_connection(engine)
-    await create_tables(engine)
+    await core.check_connection(engine)
+    await orm.create_tables(engine)
 
     dp.include_router(router)
+    setup(dp)
+    setup_dialogs(dp)
 
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)

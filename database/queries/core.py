@@ -10,3 +10,6 @@ async def check_connection(engine: create_async_engine):
     async with engine.connect() as conn:
         await conn.execute(text("SELECT 1, 2, 3"))
         logger.info('Successful connection to db')
+
+
+
