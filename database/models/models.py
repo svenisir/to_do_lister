@@ -11,7 +11,7 @@ class Task(Base):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     user_id: Mapped[int]
     text: Mapped[str] = mapped_column(Text)
-    # category_id: Mapped[int]
+    category_id: Mapped[int]
     # date_complete: Mapped[date]
     # time: Mapped[int]
     # repeat: Mapped[bool]
@@ -24,6 +24,9 @@ class Task(Base):
 class Category(Base):
     __tablename__ = 'category'
 
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    user_id: Mapped[int]
+    category_name: Mapped[str]
 
 
 # workers_table = Table(

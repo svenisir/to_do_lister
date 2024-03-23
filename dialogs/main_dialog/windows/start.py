@@ -5,7 +5,7 @@ from states.states import MainSG
 from dialogs.main_dialog.getters import get_name
 
 window = Window(
-    Format('Привет {name}!', when='first_show'),
+    Format('Привет, {name}!', when='first_show'),
     Const('Выбери необходимое меню.'),
     SwitchTo(text=Const('Задачи'), id='tasks_btn', state=MainSG.tasks),
     SwitchTo(text=Const('Календарь'), id='calendar_btn', state=MainSG.calendar),

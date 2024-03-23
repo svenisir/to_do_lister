@@ -12,9 +12,9 @@ from states.states import MainSG, AddTaskSG
 locale.setlocale(locale.LC_ALL, 'ru_Ru.UTF-8')
 
 window = Window(
-    Const(f'Задачи на сегодня: \n {date.today().strftime("%A %d %B %Y").title()}'),
+    Const(f'Задачи на сегодня:\n{date.today().strftime("%A %d %B %Y").title()}'),
     Row(
-        SwitchTo(text=Format('Категория'), id='category_btn', state=MainSG.choose_category),
+        SwitchTo(text=Format('Категория: {category_name}'), id='category_btn', state=MainSG.choose_category),
         Start(text=Const(text='Добавить задачу'), id='add_task',
               state=AddTaskSG.begin, data={'category': 'Все',
                                            'date_task': date.today().strftime("%A %d %B %Y").title()})

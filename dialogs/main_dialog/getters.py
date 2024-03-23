@@ -5,6 +5,8 @@ from aiogram.types import User
 from aiogram.fsm.context import FSMContext
 from aiogram_dialog import DialogManager
 
+from database.queries.core import select_category
+
 logger = logging.getLogger(__name__)
 
 
@@ -45,6 +47,9 @@ async def get_state_category(dialog_manager: DialogManager, state: FSMContext, *
         tasks['complete'] = '✓ Выполненные'
         tasks['complete_state'] = True
 
+    category = dialog_manager.dialog_data.get('category', {'name': 'Все', 'id': 0})
+    tasks.update({'category_name': category['name'].lower()})
+
     return tasks
 
 
@@ -55,3 +60,9 @@ async def get_select_date(dialog_manager: DialogManager, **kwargs):
                          selected_date.strftime(" %B %Y")
     dialog_manager.dialog_data['select_date'] = selected_date
     return {'select_date': selected_date}
+
+
+async def get_categories(dialog_manager: DialogManager, event_from_user: User, **kwargs):
+    session = dialog_manager.middleware_data['session']
+    categories = await select_category(async_session=session, user_id=event_from_user.id)
+    return {'categories': categories}

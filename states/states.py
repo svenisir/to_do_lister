@@ -18,3 +18,8 @@ class AddTaskSG(StatesGroup):
     data_task = State()
     subtasks = State()
     pattern = State()
+
+
+class AddCategorySG(StatesGroup):
+    category_input = State()
+    category_confirm = State()
