@@ -63,6 +63,11 @@ async def get_select_date(dialog_manager: DialogManager, **kwargs):
 
 
 async def get_categories(dialog_manager: DialogManager, event_from_user: User, **kwargs):
+    delete = dialog_manager.dialog_data.get('del_categories', False)
+    choose = dialog_manager.dialog_data.get('choose_categories', True)
+
     session = dialog_manager.middleware_data['session']
     categories = await select_category(async_session=session, user_id=event_from_user.id)
-    return {'categories': categories}
+    return {'categories': categories,
+            'del_categories': delete,
+            'choose_categories': choose}

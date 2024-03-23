@@ -15,13 +15,14 @@ window = Window(
             id='categ',
             item_id_getter=lambda x: x[1],
             items='categories',
-            on_click=back_with_category
+            on_click=back_with_category,
         ),
     ),
     Row(
         Start(text=Const('Добавить категорию'), id='add_category', state=AddCategorySG.category_input),
-        SwitchTo(text=Const('Назад'), id='back_btn', state=MainSG.tasks),
+        SwitchTo(text=Const('Удалить категории'), id='del_category', state=MainSG.delete_category),
     ),
+    SwitchTo(text=Const('Назад'), id='back_btn', state=MainSG.tasks),
     state=MainSG.choose_category,
     getter=get_categories
 )

@@ -5,6 +5,7 @@ class MainSG(StatesGroup):
     start = State()
     tasks = State()
     choose_category = State()
+    delete_category = State()
     calendar = State()
     calendar_tasks = State()
     profile = State()

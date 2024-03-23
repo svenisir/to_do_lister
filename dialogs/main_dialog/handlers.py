@@ -5,7 +5,7 @@ from aiogram.types import CallbackQuery
 from aiogram_dialog import DialogManager
 from aiogram_dialog.widgets.kbd import Button
 
-from database.queries.core import select_category_name
+from database.queries.core import select_category_name, del_category
 from states.states import MainSG, AddTaskSG
 
 
@@ -45,3 +45,9 @@ async def back_all_categories(callback: CallbackQuery, button: Button,
         'id': 0
     }
     await dialog_manager.switch_to(state=MainSG.tasks)
+
+
+async def delete_category(callback: CallbackQuery, widget: Any,
+                          dialog_manager: DialogManager, item_id: str):
+    session = dialog_manager.middleware_data['session']
+    await del_category(async_session=session, categ_id=int(item_id))

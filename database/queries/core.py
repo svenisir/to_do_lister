@@ -42,3 +42,10 @@ async def check_category(async_session: async_sessionmaker, categ_name: str):
                                             f"FROM category "
                                             f"WHERE category_name = \'{categ_name}\'"))
         return result.all()
+
+
+async def del_category(async_session: async_sessionmaker, categ_id: int):
+    async with async_session() as session:
+        await session.execute(text(f"DELETE FROM category "
+                                   f"WHERE id = {categ_id}"))
+        await session.commit() 
