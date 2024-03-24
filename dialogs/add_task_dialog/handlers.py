@@ -1,4 +1,5 @@
 from typing import Any
+from datetime import date
 
 from aiogram.types import CallbackQuery, Message
 from aiogram_dialog import DialogManager
@@ -31,6 +32,13 @@ async def correct_text(message: Message, widget: ManagedTextInput,
     await dialog_manager.switch_to(state=AddTaskSG.begin)
 
 
+async def correct_subtask(message: Message, widget: ManagedTextInput,
+                          dialog_manager: DialogManager, text: str) -> None:
+    dialog_manager.dialog_data['task']['subtasks'].add((text.strip(),))
+    dialog_manager.dialog_data['task']['show_subtasks'] = True
+    await dialog_manager.switch_to(state=AddTaskSG.begin)
+
+
 async def error_text(message: Message, widget: ManagedTextInput,
                      dialog_manager: DialogManager, text: str):
     await message.answer(text='Недопустимый текст задачи. Попробуйте ещё раз.')
@@ -48,5 +56,22 @@ async def back_with_category(callback: CallbackQuery, widget: Any,
         if btn[0].callback_data.endswith(callback.data):
             category_name = btn[0].text
     dialog_manager.dialog_data['task']['category_name'] = category_name
+    dialog_manager.dialog_data['task']['category_id'] = int(item_id)
 
     await dialog_manager.switch_to(state=AddTaskSG.begin)
+
+
+async def add_date_task(callback: CallbackQuery, widget: Any,
+                        dialog_manager: DialogManager, selected_date: date):
+    dialog_manager.dialog_data['task']['date_task'] = selected_date
+    await dialog_manager.switch_to(state=AddTaskSG.begin)
+
+
+async def delete_subtasks(callback: CallbackQuery, widget: Any,
+                          dialog_manager: DialogManager, item_id: str):
+    subtask = ''
+    for btn in callback.message.reply_markup.inline_keyboard:
+        if btn[0].callback_data.endswith(callback.data):
+            subtask = btn[0].text[2:]
+
+    dialog_manager.dialog_data['task']['subtasks'].discard((subtask,))

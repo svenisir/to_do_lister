@@ -1,5 +1,5 @@
 from aiogram_dialog import Window
-from aiogram_dialog.widgets.text import Const, Format, Multi
+from aiogram_dialog.widgets.text import Const, Format, Multi, List
 from aiogram_dialog.widgets.kbd import Button, Cancel, Row, SwitchTo, Group
 
 from dialogs.add_task_dialog.handlers import add_task
@@ -12,14 +12,20 @@ window = Window(
         Format('<b>Текст:</b>\n{text}'),
         Format('<b>Категория:</b>\n{category_name}'),
         Format('<b>Дата:</b>\n{date_task}'),
-        Format('<b>Подзадачи:</b>\n{subtasks}'),
+        Multi(
+            Format('<b>Подзадачи:</b>'),
+            List(
+                field=Format('\t\t\t• {item[0]}'),
+                items='subtasks'
+            ),
+        ),
         sep='\n\n'
     ),
     Group(
         SwitchTo(text=Const('Текст задачи'), id='text', state=AddTaskSG.text),
         SwitchTo(text=Const('Категория'), id='category', state=AddTaskSG.choose_category),
-        Button(text=Const('Дата'), id='date'),
-        Button(text=Const('Подзадачи'), id='subtask'),
+        SwitchTo(text=Const('Дата'), id='date', state=AddTaskSG.data_task),
+        SwitchTo(text=Const('Подзадачи'), id='subtask', state=AddTaskSG.subtasks_input),
         Button(text=Const('Шаблон задачи'), id='pattern'),
         width=2
     ),

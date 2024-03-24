@@ -59,7 +59,6 @@ async def get_select_date(dialog_manager: DialogManager, **kwargs):
     selected_date: str = selected_date.strftime("%A ").title() + \
                          str(int(selected_date.strftime("%d"))) + \
                          selected_date.strftime(" %B %Y")
-    dialog_manager.dialog_data['select_date'] = selected_date
     return {'select_date': selected_date}
 
 

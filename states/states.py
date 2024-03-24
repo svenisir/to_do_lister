@@ -18,7 +18,8 @@ class AddTaskSG(StatesGroup):
     text = State()
     choose_category = State()
     data_task = State()
-    subtasks = State()
+    subtasks_input = State()
+    subtasks_delete = State()
     pattern = State()
 
 

@@ -14,38 +14,39 @@ async def check_connection(engine: create_async_engine):
 
 async def check_user(async_session: async_sessionmaker, user_id: int):
     async with async_session() as session:
-        result = await session.execute(text(f"SELECT DISTINCT user_id "
-                                         f"FROM category "
-                                         f"WHERE user_id = {user_id}"))
+        stat = text("SELECT DISTINCT user_id FROM category WHERE user_id =:id")
+        stat = stat.bindparams(id=user_id)
+        result = await session.execute(stat)
     return result.all()
 
 
 async def select_category(async_session: async_sessionmaker, user_id: int):
     async with async_session() as session:
-        result = await session.execute(text(f"SELECT category_name, id "
-                                            f"FROM category "
-                                            f"WHERE user_id = {user_id}"))
+        stat = text("SELECT category_name, id FROM category WHERE user_id =:id")
+        stat = stat.bindparams(id=user_id)
+        result = await session.execute(stat)
     return result.all()
 
 
 async def select_category_name(async_session: async_sessionmaker, categ_id: int):
     async with async_session() as session:
-        result = await session.execute(text(f"SELECT category_name "
-                                            f"FROM category "
-                                            f"WHERE id = {categ_id}"))
+        stat = text("SELECT category_name FROM category WHERE id =:id")
+        stat = stat.bindparams(id=categ_id)
+        result = await session.execute(stat)
     return result.scalar()
 
 
 async def check_category(async_session: async_sessionmaker, categ_name: str):
     async with async_session() as session:
-        result = await session.execute(text(f"SELECT category_name "
-                                            f"FROM category "
-                                            f"WHERE category_name = \'{categ_name}\'"))
+        stat = text(f"SELECT category_name FROM category WHERE category_name =:categ")
+        stat = stat.bindparams(categ=categ_name)
+        result = await session.execute(stat)
         return result.all()
 
 
 async def del_category(async_session: async_sessionmaker, categ_id: int):
     async with async_session() as session:
-        await session.execute(text(f"DELETE FROM category "
-                                   f"WHERE id = {categ_id}"))
-        await session.commit() 
+        stat = text(f"DELETE FROM category WHERE id =:id")
+        stat = stat.bindparams(id=categ_id)
+        await session.execute(stat)
+        await session.commit()
