@@ -48,6 +48,7 @@ async def get_state_category(dialog_manager: DialogManager, state: FSMContext, *
         tasks['complete_state'] = True
 
     category = dialog_manager.dialog_data.get('category', {'name': 'Все', 'id': 0})
+    dialog_manager.dialog_data['category'] = category
     tasks.update({'category_name': category['name'].lower()})
 
     return tasks
@@ -63,11 +64,6 @@ async def get_select_date(dialog_manager: DialogManager, **kwargs):
 
 
 async def get_categories(dialog_manager: DialogManager, event_from_user: User, **kwargs):
-    delete = dialog_manager.dialog_data.get('del_categories', False)
-    choose = dialog_manager.dialog_data.get('choose_categories', True)
-
     session = dialog_manager.middleware_data['session']
     categories = await select_category(async_session=session, user_id=event_from_user.id)
-    return {'categories': categories,
-            'del_categories': delete,
-            'choose_categories': choose}
+    return {'categories': categories}

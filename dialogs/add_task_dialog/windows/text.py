@@ -8,7 +8,7 @@ from dialogs.add_task_dialog.handlers import (text_check, correct_text,
                                               error_text, no_text)
 from states.states import AddTaskSG
 
-window_input = Window(
+window = Window(
     Const('Введите текст задачи'),
     TextInput(
         id='text_input',
@@ -23,7 +23,3 @@ window_input = Window(
     SwitchTo(text=Const('Назад'), id='back_btn', state=AddTaskSG.begin),
     state=AddTaskSG.text
 )
-
-# window_confirm = Window(
-#
-# )

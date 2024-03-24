@@ -39,3 +39,14 @@ async def error_text(message: Message, widget: ManagedTextInput,
 async def no_text(message: Message, widget: MessageInput,
                   dialog_manager: DialogManager) -> None:
     await message.answer(text='Это сообщение не содержит текст. Попробуйте ещё раз.')
+
+
+async def back_with_category(callback: CallbackQuery, widget: Any,
+                             dialog_manager: DialogManager, item_id: str):
+    category_name = dialog_manager.dialog_data['task']['category_name']
+    for btn in callback.message.reply_markup.inline_keyboard:
+        if btn[0].callback_data.endswith(callback.data):
+            category_name = btn[0].text
+    dialog_manager.dialog_data['task']['category_name'] = category_name
+
+    await dialog_manager.switch_to(state=AddTaskSG.begin)

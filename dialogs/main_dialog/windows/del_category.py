@@ -16,7 +16,7 @@ window = Window(
             items='categories',
             on_click=delete_category,
         ),
-    ), 
+    ),
     SwitchTo(text=Const('Назад'), id='back_btn', state=MainSG.choose_category),
     state=MainSG.delete_category,
     getter=get_categories

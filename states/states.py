@@ -16,6 +16,7 @@ class MainSG(StatesGroup):
 class AddTaskSG(StatesGroup):
     begin = State()
     text = State()
+    choose_category = State()
     data_task = State()
     subtasks = State()
     pattern = State()
