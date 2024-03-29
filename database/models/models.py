@@ -17,6 +17,7 @@ class Task(Base):
     text: Mapped[str_32]
     category_id: Mapped[int] = mapped_column(ForeignKey('category.id', ondelete='SET NULL'), nullable=True)
     date_task: Mapped[date]
+    complete: Mapped[bool]
     # date_complete: Mapped[date]
     # time: Mapped[int]
     # repeat: Mapped[bool]

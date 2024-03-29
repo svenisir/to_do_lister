@@ -1,4 +1,5 @@
 import logging
+from datetime import date
 
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
@@ -50,3 +51,25 @@ async def del_category(async_session: async_sessionmaker, categ_id: int):
         stat = stat.bindparams(id=categ_id)
         await session.execute(stat)
         await session.commit()
+
+
+async def select_tasks(async_session: async_sessionmaker, user_id: int):
+    async with async_session() as session:
+        stat = text(f"SELECT text, id, category_id, date_task, complete "
+                    f"FROM tasks "
+                    f"WHERE user_id=:id")
+        stat = stat.bindparams(id=user_id)
+        res = await session.execute(stat)
+        await session.commit()
+    return res.mappings().all()
+
+
+async def select_tasks_on_day(async_session: async_sessionmaker, user_id: int, date_task: date):
+    async with async_session() as session:
+        stat = text(f"SELECT text, id, category_id, date_task, complete "
+                    f"FROM tasks "
+                    f"WHERE user_id=:id and date_task=:date_task")
+        stat = stat.bindparams(id=user_id, date_task=date_task)
+        res = await session.execute(stat)
+        await session.commit()
+    return res.mappings().all()

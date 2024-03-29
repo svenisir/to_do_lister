@@ -26,3 +26,13 @@ class AddTaskSG(StatesGroup):
 class AddCategorySG(StatesGroup):
     category_input = State()
     category_confirm = State()
+
+
+class EditTaskSG(StatesGroup):
+    begin = State()
+    egit_text = State()
+    edit_category = State()
+    edit_date_task = State()
+    edit_subtasks = State()
+    edit_time_repeat = State()
+    edit_notes = State()

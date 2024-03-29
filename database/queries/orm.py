@@ -22,20 +22,21 @@ async def insert_task(async_session: async_sessionmaker, data: dict):
             [
                 {'user_id': data['user_id'], 'text': data['text'],
                  'category_id': data['category_id'] if data['category_id'] != 0 else None,
-                 'date_task': data['date_task']}
+                 'date_task': data['date_task'], 'complete': False}
             ]
         )
 
         task_id = task_id.scalar()
 
-        await session.execute(
-            insert(Subtasks),
-            [
-                {'task_id': task_id, 
-                 'text': subtask[0],
-                 'complete': False} for subtask in data['subtasks']
-            ]
-        )
+        if data['subtasks']:
+            await session.execute(
+                insert(Subtasks),
+                [
+                    {'task_id': task_id,
+                     'text': subtask[0],
+                     'complete': False} for subtask in data['subtasks']
+                ]
+            )
 
         await session.commit()
 

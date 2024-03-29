@@ -87,6 +87,10 @@ logging_config = {
         'database.queries.core': {
             'level': 'DEBUG',
             'handlers': ['default']
+        },
+        'handlers.error_handlers': {
+            'level': 'ERROR',
+            'handlers': ['default']
         }
     },
     'root': {
